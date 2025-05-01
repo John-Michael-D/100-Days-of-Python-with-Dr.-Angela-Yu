@@ -140,6 +140,7 @@ while True:
         break
 
     if attempts == 0:
+        artHangman(0)
         print("**************** YOU LOSE!!!!!!!!!!!! ****************")
         print(f"The word was {chosenWord}.")
         break
