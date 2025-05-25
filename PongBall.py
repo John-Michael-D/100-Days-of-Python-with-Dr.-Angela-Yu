@@ -33,4 +33,3 @@ class Ball(Turtle):
 
     def increaseSpeed(self):
         self.speedInit *= 0.9
-        print(f"CURRENT SPEED: {self.speedInit}")
