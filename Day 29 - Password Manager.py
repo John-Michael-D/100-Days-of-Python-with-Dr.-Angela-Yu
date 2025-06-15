@@ -4,11 +4,11 @@ import random
 # ---------------------------- CONSTANTS ------------------------------- #
 FONT = "Calibri"
 FONT_SIZE = 12
-letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
 'U', 'V', 'W', 'X', 'Y', 'Z']
-numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+NUMBERS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+SYMBOLS = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 # ---------------------------- CLEAR FIELDS ------------------------------- #
 def clear():
     input1.delete(0, END)
@@ -24,11 +24,11 @@ def passwordGenerator():
     passwordPrelim.clear()
     passwordFinal = ""
     for value in range(int(spinbox1.get())):
-        passwordPrelim.append(letters[random.randint(0, len(letters) - 1)])
+        passwordPrelim.append(LETTERS[random.randint(0, len(LETTERS) - 1)])
     for value in range(int(spinbox2.get())):
-        passwordPrelim.append(numbers[random.randint(0, len(numbers) - 1)])
+        passwordPrelim.append(NUMBERS[random.randint(0, len(NUMBERS) - 1)])
     for value in range(int(spinbox3.get())):
-        passwordPrelim.append(symbols[random.randint(0, len(symbols) - 1)])
+        passwordPrelim.append(SYMBOLS[random.randint(0, len(SYMBOLS) - 1)])
     random.shuffle(passwordPrelim)
     for value in passwordPrelim:
         passwordFinal += value
@@ -74,16 +74,14 @@ label2 = Label(text="Email/Username:",font=(FONT,FONT_SIZE))
 label2.place(x=-7, y=228)
 label3 = Label(text="Password:",font=(FONT,FONT_SIZE))
 label3.place(x=43,y=258)
-label4 = Label(text="",font=(FONT,FONT_SIZE))
-label4.place(x=50,y=360)
-label5 = Label(text="# of letters:",font=(FONT,FONT_SIZE))
-label5.place(x=-10,y=-10)
-label6 = Label(text="# of numbers:",font=(FONT,FONT_SIZE))
-label6.place(x=175,y=-10)
-label7 = Label(text="# of symbols:",font=(FONT,FONT_SIZE))
-label7.place(x=350,y=-10)
-label8 = Label(text="Interact with the widgets at the top to configure password character options.",font=(FONT,11))
-label8.place(x=0,y=360)
+label4 = Label(text="# of letters:",font=(FONT,FONT_SIZE))
+label4.place(x=-10,y=-10)
+label5 = Label(text="# of numbers:",font=(FONT,FONT_SIZE))
+label5.place(x=175,y=-10)
+label6 = Label(text="# of symbols:",font=(FONT,FONT_SIZE))
+label6.place(x=350,y=-10)
+label7 = Label(text="Interact with the widgets at the top to configure password character options.",font=(FONT,11))
+label7.place(x=0,y=360)
 
 input1 = Entry(width=37)
 input1.place(x=125,y=196)
