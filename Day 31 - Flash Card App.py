@@ -266,7 +266,6 @@ def studyDeckSelection():
 
     def studyDeckSelected():
         global usedNum
-        windowStudyDeckSelection.state(newstate="iconic")
         try:
             selectedDeck = windowStudyDeckSelectionListBox.get(windowStudyDeckSelectionListBox.curselection())
         except TclError:
