@@ -1,6 +1,7 @@
 from json import JSONDecodeError
 from tkinter import *
 from tkinter import messagebox
+from tkinter import scrolledtext
 import random
 import json
 # ---------------------------- CONSTANTS ------------------------------- #
@@ -76,25 +77,103 @@ def save():
 # ---------------------------- JSON FILE SEARCH ------------------------------- #
 def searchJSON():
     inputWebsite = input1.get().strip().lower()
+    selection = radio_state.get()
     try:
         with open("SavedPasswords.json", mode="r") as docs1:
             data = json.load(docs1)
-            print(data[inputWebsite]["Email/Username"])
-            if inputWebsite in data.keys():
-                storedEmailUsername = data[inputWebsite]["Email/Username"]
-                storedPassword = data[inputWebsite]["Password"]
-                searchInformation = messagebox.showinfo(title=f"Information for {inputWebsite}",
-                message=f"Email/Username for {inputWebsite}: \n{storedEmailUsername}"
-                f"\n\nPassword for {inputWebsite}: \n{storedPassword}")
+            keysList = list(data.keys())
+            success = 1
+            if inputWebsite == "all":
+                for n in range(0,len(keysList)):
+                    input1.delete(0,END)
+                    input2.delete(0, END)
+                    input3.delete(0, END)
+                    storedEmailUsername = data[keysList[n]]["Email/Username"]
+                    storedPassword = data[keysList[n]]["Password"]
+                    input1.insert(END, string=keysList[n])
+                    input2.insert(END, string=storedEmailUsername)
+                    input3.insert(END, string=storedPassword)
+                    messagebox.showinfo(title=f"Information for {keysList[n]}",
+                    message=f"Email/Username for {keysList[n]}: \n{storedEmailUsername}"
+                    f"\n\nPassword for {keysList[n]}: \n{storedPassword}")
+            elif selection == 1:
+                if inputWebsite in keysList:
+                    input1.delete(0, END)
+                    input2.delete(0, END)
+                    input3.delete(0, END)
+                    storedEmailUsername = data[inputWebsite]["Email/Username"]
+                    storedPassword = data[inputWebsite]["Password"]
+                    input1.insert(END, string=inputWebsite)
+                    input2.insert(END, string=storedEmailUsername)
+                    input3.insert(END, string=storedPassword)
+                    messagebox.showinfo(title=f"Information for {inputWebsite}",
+                    message=f"Email/Username for {inputWebsite}: \n{storedEmailUsername}"
+                    f"\n\nPassword for {inputWebsite}: \n{storedPassword}")
+                else:
+                    raise KeyError
+            elif selection == 2:
+                for n in range(0, len(keysList) + 1):
+                    if n == len(keysList):
+                        success -= 1
+                        raise KeyError
+                    elif inputWebsite in keysList[n]:
+                        break
+                if success == 1:
+                    for n in range(0,len(keysList) + 1):
+                        if inputWebsite in keysList[n]:
+                            input1.delete(0, END)
+                            input2.delete(0, END)
+                            input3.delete(0, END)
+                            storedEmailUsername = data[keysList[n]]["Email/Username"]
+                            storedPassword = data[keysList[n]]["Password"]
+                            input1.insert(END, string=keysList[n])
+                            input2.insert(END, string=storedEmailUsername)
+                            input3.insert(END, string=storedPassword)
+                            messagebox.showinfo(title=f"Information for {keysList[n]}",
+                            message=f"Email/Username for {keysList[n]}: \n{storedEmailUsername}"
+                            f"\n\nPassword for {keysList[n]}: \n{storedPassword}")
     except KeyError:
         messagebox.showerror(title="Error", message=f"Information for \"{inputWebsite}\" is not in SavedPasswords.json!")
     except JSONDecodeError:
         messagebox.showerror(title="Error", message=f"Information for \"{inputWebsite}\" is not in SavedPasswords.json!")
+    except IndexError:
+        pass
     finally:
         clear()
+# ---------------------------- HOW TO USE APP ------------------------------- #
+def howToUse():
+    win = Tk()
+    win.title("Welcome to MyPass Password Manager!")
+    Label(win, text="Instructions", font=(FONT, FONT_SIZE),
+          background='green', foreground="white").grid(column=0, row=0)
+
+    text_area = scrolledtext.ScrolledText(win, wrap=WORD, width=75, height=30, font=(FONT, 15))
+
+    text_area.grid(column=0, pady=10, padx=10)
+
+    text_area.insert(INSERT, "This a simple, "
+f"easy to use locally-hosted password manager. Since it's locally hosted, this program is immune to the "
+f"vulnerabilities faced by online or cloud-based password managers.\n\nTo use this app, simply enter in your account "
+f"credentials for a particular website. Click on the 'Generate Password' button to randomly generate a password."
+f" You can adjust how many letters, numbers, and symbols you want in your password by interacting with the widgets "
+f"at the top of the app.\n\nBy clicking on the 'Save' button, the information you entered will be saved to the "
+f"locally-stored 'SavedPasswords.json' file. Make sure to not leave any fields blank when saving your information.\n\n"
+f"By clicking on the 'Search' button, the program will be able to search 'SavedPasswords.json' for the credentials "
+f"you entered for a particular website and display it to the screen. Simply type the name of the website you want to"
+f" search for into the Website text field BEFORE pressing the 'Search' button.\n\nIf you want to look up the credentials"
+f" for ALL of the websites you've saved to 'SavedPasswords.json', then type 'all' (no quotation marks) into the"
+f" Website text field.\n\nThe search functionality also comes with Exact Match and Partial Match search features."
+f" For example, choose 'Exact Match' if you want the program to search for and display information for a single "
+f"particular website. However, choose 'Partial Match' if you want the program to search for and display information"
+f" for multiple websites at once. As an example, typing '.com' into the Website text field while 'Partial Match' is"
+f" selected will cause the program to search and display information for all websites saved to 'SavedPasswords.json' "
+f"that contain '.com' in their name.\n\nAs 'SavedPasswords.json' stores your passwords in cleartext, I highly"
+f" suggest you encrypt the folder you designate to contain this program and 'SavedPasswords.json'."
+f"\n\nCyberspace can be a dangerous place at times. Stay safe and stay vigilant out there!")
+    text_area.configure(state ='disabled')
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
-window.title("Password Manager")
+window.title("MyPass Password Manager")
 window.config(padx=20,pady=20)
 window.minsize(width=500,height=400)
 window.maxsize(width=500,height=400)
@@ -111,13 +190,15 @@ label2.place(x=-7, y=228)
 label3 = Label(text="Password:",font=(FONT,FONT_SIZE))
 label3.place(x=43,y=258)
 label4 = Label(text="# of letters:",font=(FONT,FONT_SIZE))
-label4.place(x=-10,y=-10)
+label4.place(x=-20,y=-10)
 label5 = Label(text="# of numbers:",font=(FONT,FONT_SIZE))
 label5.place(x=175,y=-10)
 label6 = Label(text="# of symbols:",font=(FONT,FONT_SIZE))
-label6.place(x=350,y=-10)
+label6.place(x=345,y=-10)
 label7 = Label(text="Interact with the widgets at the top to configure password character options.",font=(FONT,11))
 label7.place(x=0,y=360)
+label8 = Label(text="Select Search Mode:",font=(FONT,FONT_SIZE))
+label8.place(x=315,y=75)
 
 input1 = Entry(width=25)
 input1.place(x=125,y=196)
@@ -133,11 +214,13 @@ button2 = Button(text="Save",width=34,command=save)
 button2.place(x=127,y=290)
 button3 = Button(text="Search",width=8,font=(FONT,10),command=searchJSON)
 button3.place(x=340,y=194)
+button4 = Button(text="How to Use App",font=(FONT,FONT_SIZE),command=howToUse)
+button4.place(x=10,y=75)
 
 spinbox1 = Spinbox(from_=0, to=52, width=3)
 spinbox1.delete(0, END)
 spinbox1.insert(0,4)
-spinbox1.place(x=70,y=-14)
+spinbox1.place(x=60,y=-14)
 spinbox2 = Spinbox(from_=0, to=10, width=3)
 spinbox2.delete(0, END)
 spinbox2.insert(0,4)
@@ -145,6 +228,13 @@ spinbox2.place(x=270,y=-14)
 spinbox3 = Spinbox(from_=0, to=9, width=3)
 spinbox3.delete(0, END)
 spinbox3.insert(0,4)
-spinbox3.place(x=440,y=-14)
+spinbox3.place(x=435,y=-14)
+
+radio_state = IntVar()
+radiobutton1 = Radiobutton(text="Complete Match", value=1, variable=radio_state)
+radiobutton2 = Radiobutton(text="Partial Match", value=2, variable=radio_state)
+radiobutton1.place(x=310,y=100)
+radiobutton1.select()
+radiobutton2.place(x=310,y=125)
 
 window.mainloop()
