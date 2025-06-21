@@ -271,9 +271,9 @@ def studyDeckSelection():
         except TclError:
             pass
         else:
-            buttonRoot1.place_forget()
-            buttonRoot2.place_forget()
-            buttonRoot3.place_forget()
+            buttonRoot1.place(x=1000,y=1000)
+            buttonRoot2.place(x=1000,y=1000)
+            buttonRoot3.place(x=1000,y=1000)
             with open(selectedDeck, mode="r") as docs5:
                 data = json.load(docs5)
                 dataKeysList = list(data.keys())
@@ -287,9 +287,9 @@ def studyDeckSelection():
                         usedNum.append(rng)
                         break
                 elif restart == 1:
-                    rng = random.randint(0, len(toLearn) - 1)
+                    rng = random.choice(toLearn)
                     if rng in usedNum:
-                        rng = random.randint(0, len(toLearn) - 1)
+                        rng = random.choice(toLearn)
                     else:
                         usedNum.append(rng)
                         break
