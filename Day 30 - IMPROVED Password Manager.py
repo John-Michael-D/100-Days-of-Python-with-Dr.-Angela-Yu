@@ -93,9 +93,12 @@ def searchJSON():
                     input1.insert(END, string=keysList[n])
                     input2.insert(END, string=storedEmailUsername)
                     input3.insert(END, string=storedPassword)
+                    window.clipboard_clear()
+                    window.clipboard_append(input3.get())
                     messagebox.showinfo(title=f"Information for {keysList[n]}",
                     message=f"Email/Username for {keysList[n]}: \n{storedEmailUsername}"
-                    f"\n\nPassword for {keysList[n]}: \n{storedPassword}")
+                    f"\n\nPassword for {keysList[n]}: \n{storedPassword}\n\n"
+                    f"PASSWORD COPIED TO CLIPBOARD!!!")
             elif selection == 1:
                 if inputWebsite in keysList:
                     input1.delete(0, END)
@@ -106,9 +109,12 @@ def searchJSON():
                     input1.insert(END, string=inputWebsite)
                     input2.insert(END, string=storedEmailUsername)
                     input3.insert(END, string=storedPassword)
+                    window.clipboard_clear()
+                    window.clipboard_append(input3.get())
                     messagebox.showinfo(title=f"Information for {inputWebsite}",
                     message=f"Email/Username for {inputWebsite}: \n{storedEmailUsername}"
-                    f"\n\nPassword for {inputWebsite}: \n{storedPassword}")
+                    f"\n\nPassword for {inputWebsite}: \n{storedPassword}\n\n"
+                    f"PASSWORD COPIED TO CLIPBOARD!!!")
                 else:
                     raise KeyError
             elif selection == 2:
@@ -129,9 +135,12 @@ def searchJSON():
                             input1.insert(END, string=keysList[n])
                             input2.insert(END, string=storedEmailUsername)
                             input3.insert(END, string=storedPassword)
+                            window.clipboard_clear()
+                            window.clipboard_append(input3.get())
                             messagebox.showinfo(title=f"Information for {keysList[n]}",
                             message=f"Email/Username for {keysList[n]}: \n{storedEmailUsername}"
-                            f"\n\nPassword for {keysList[n]}: \n{storedPassword}")
+                            f"\n\nPassword for {keysList[n]}: \n{storedPassword}\n\n"
+                            f"PASSWORD COPIED TO CLIPBOARD!!!")
     except KeyError:
         messagebox.showerror(title="Error", message=f"Information for \"{inputWebsite}\" is not in SavedPasswords.json!")
     except JSONDecodeError:
@@ -162,8 +171,8 @@ f"By clicking on the 'Search' button, the program will be able to search 'SavedP
 f"you entered for a particular website and display it to the screen. Simply type the name of the website you want to"
 f" search for into the Website text field BEFORE pressing the 'Search' button.\n\nIf you want to look up the credentials"
 f" for ALL of the websites you've saved to 'SavedPasswords.json', then type 'all' (no quotation marks) into the"
-f" Website text field.\n\nThe search functionality also comes with Exact Match and Partial Match search features."
-f" For example, choose 'Exact Match' if you want the program to search for and display information for a single "
+f" Website text field.\n\nThe search functionality also comes with Complete Match and Partial Match search features."
+f" For example, choose 'Complete Match' if you want the program to search for and display information for a single "
 f"particular website. However, choose 'Partial Match' if you want the program to search for and display information"
 f" for multiple websites at once. As an example, typing '.com' into the Website text field while 'Partial Match' is"
 f" selected will cause the program to search and display information for all websites saved to 'SavedPasswords.json' "
